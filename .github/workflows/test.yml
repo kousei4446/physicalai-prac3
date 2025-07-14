@@ -15,34 +15,34 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    
+
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
-    
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install pytest pytest-cov
-    
+
     - name: Run tests with pytest
       run: |
-        pytest 演習3/tests/ -v --cov=演習3/
-    
+        pytest "演習3/tests/" -v --cov="演習3/"
+
     - name: Check code style with black
       run: |
         pip install black
-        black --check 演習2/
-    
+        black --check "演習2/"
+
     - name: Run ML pipeline
       run: |
-        cd 演習1
+        cd "演習1"
         python main.py
-    
+
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
+      if: matrix.python-version == '3.10'
       with:
-        file: ./coverage.xml
-        fail_ci_if_error: true
+        fail_ci_if_error: false
